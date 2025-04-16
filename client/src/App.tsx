@@ -10,7 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/uber-eats">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/restaurant/register" element={<RestaurantRegister />} />
