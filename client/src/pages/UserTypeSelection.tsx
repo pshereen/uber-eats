@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Store, ShoppingCart } from 'lucide-react';
 import background from '../assets/UberEatsHomePage-3.jpg';
