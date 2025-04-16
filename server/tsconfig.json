@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                        // Use modern JS
+    "module": "CommonJS",                   // For Node.js
+    "rootDir": "./",                        // Source files
+    "outDir": "./dist",                     // Compiled output
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
