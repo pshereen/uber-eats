@@ -1,25 +1,43 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RestaurantUser, CustomerUser } from '../types/UserTypes';
 
-type AuthUser = RestaurantUser | CustomerUser;
+export type AuthUser = RestaurantUser | CustomerUser;
 
-interface AuthState {
+export interface AuthState {
   token: string | null;
   user: AuthUser | null;
   role: 'restaurant' | 'customer' | null;
 }
 
+
+// ✅ Reusable and exported normalization function
+export function normalizeUser(
+  user: Partial<RestaurantUser & { id?: string }> | Partial<CustomerUser & { id?: string }>,
+  role: 'restaurant' | 'customer'
+): AuthUser {
+  const _id = user._id ?? user.id ?? '';
+
+  if (role === 'restaurant') {
+    const { image = '', ...rest } = user as RestaurantUser;
+    return {
+      ...rest,
+      _id,
+      image,
+      role: 'restaurant',
+    };
+  } else {
+    return {
+      ...(user as CustomerUser),
+      _id,
+      role: 'customer',
+    };
+  }
+}
+
 const initialState: AuthState = {
-  token: localStorage.getItem('token') ?? null,
-  user: (() => {
-    const stored = localStorage.getItem('user');
-    try {
-      return stored ? JSON.parse(stored) : null;
-    } catch {
-      return null;
-    }
-  })(),
-  role: (localStorage.getItem('role') as 'restaurant' | 'customer') ?? null,
+  token: null,
+  user: null,
+  role: null,
 };
 
 const authSlice = createSlice({
@@ -28,33 +46,24 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ user: AuthUser; token: string; role: 'restaurant' | 'customer' }>
+      action: PayloadAction<{
+        user: AuthUser;
+        token: string;
+        role: 'restaurant' | 'customer';
+      }>
     ) => {
       const { user, token, role } = action.payload;
-    
-      const normalizedUser = {
-        ...user,
-        _id: '_id' in user ? user._id : (user as { id: string }).id,
-        image: (user as RestaurantUser).image ?? undefined,
-      };
-    
+      const normalizedUser = normalizeUser(user, role);
+
       state.user = normalizedUser;
       state.token = token;
       state.role = role;
-    
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(normalizedUser));
-      localStorage.setItem('role', role);
     },
-    
+
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.role = null;
-
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('role');
     },
   },
 });

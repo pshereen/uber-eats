@@ -1,8 +1,9 @@
 // server/routes/menuRoutes.ts
 import express from 'express';
 import { getUploader } from '../utils/multerConfig';
+import { MenuItem } from '../models/MenuItem';
+
 const router = express.Router();
-const MenuItem = require('../models/MenuItem');
 
 const upload = getUploader('menuItems'); 
 

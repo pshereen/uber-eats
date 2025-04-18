@@ -8,6 +8,7 @@ import RestaurantDashboard from './pages/RestaurantDashboard';
 import CustomerDashboard from './pages/CustomerDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import MenuItems from './pages/MenuItems';
+import RestaurantSettings from './pages/RestaurantSettings';
 
 function App() {
   return (
@@ -44,6 +45,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/dashboard/restaurant/settings"
+  element={
+    <ProtectedRoute allowedRoles={['restaurant']}>
+      <RestaurantSettings />
+    </ProtectedRoute>
+  }
+/>
+
 
       </Routes>
     </Router>
