@@ -1,6 +1,6 @@
 import React from 'react';
 import AddMenuItemForm from './AddMenuItemForm';
-import { MenuItem } from '../types/MenuItem';
+import { MenuItem } from '../../types/MenuItem';
 
 
 type Props = {

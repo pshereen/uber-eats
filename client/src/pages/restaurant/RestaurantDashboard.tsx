@@ -1,6 +1,6 @@
-import DashboardLayout from '../components/DashboardLayout';
+import DashboardLayout from '../../components/DashboardLayout';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { RootState } from '../../redux/store';
 
 export default function RestaurantDashboard() {
   const { user } = useSelector((state: RootState) => state.auth);

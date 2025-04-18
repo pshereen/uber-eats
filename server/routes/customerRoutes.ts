@@ -57,5 +57,32 @@ router.get(
   }
 );
 
+router.put(
+  '/profile',
+  authenticateToken,
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = (req as any).user.id;
+      const { name, email, location } = req.body;
+
+      const updatedCustomer = await Customer.findByIdAndUpdate(
+        userId,
+        { name, email, location },
+        { new: true }
+      ).select('-password');
+
+      if (!updatedCustomer) {
+        res.status(404).json({ error: 'Customer not found' });
+        return;
+      }
+
+      res.json(updatedCustomer);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update profile', details: error });
+    }
+  }
+);
+
+
 
 export default router;

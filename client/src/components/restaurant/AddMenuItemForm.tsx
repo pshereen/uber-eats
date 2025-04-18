@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
-import { MenuItem, NewMenuItem } from '../types/MenuItem';
+import { MenuItem, NewMenuItem } from '../../types/MenuItem';
 
 
 type Props = {

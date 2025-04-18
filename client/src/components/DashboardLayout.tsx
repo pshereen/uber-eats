@@ -108,16 +108,6 @@ export default function DashboardLayout({ children }: Props) {
                   My Orders
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/dashboard/customer/profile"
-                  className={({ isActive }) =>
-                    `${linkStyle} ${isActive ? activeStyle : ''}`
-                  }
-                >
-                  Profile
-                </NavLink>
-              </li>
             </>
           )}
         </ul>

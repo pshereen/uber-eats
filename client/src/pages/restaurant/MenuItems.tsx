@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import DashboardLayout from '../components/DashboardLayout';
-import MenuItemCard from '../components/MenuItemCard';
-import EditMenuItemModal from '../components/EditMenuItemModal';
-import AddMenuItemModal from '../components/AddMenuItemModal';
+import DashboardLayout from '../../components/DashboardLayout';
+import MenuItemCard from '../../components/restaurant/MenuItemCard';
+import EditMenuItemModal from '../../components/restaurant/EditMenuItemModal';
+import AddMenuItemModal from '../../components/restaurant/AddMenuItemModal';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import { MenuItem } from '../types/MenuItem';
+import { RootState } from '../../redux/store';
+import { MenuItem } from '../../types/MenuItem';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function MenuItems() {

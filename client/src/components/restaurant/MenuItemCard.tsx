@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem } from '../types/MenuItem';
+import { MenuItem } from '../../types/MenuItem';
 
 
 

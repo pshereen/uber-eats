@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setRestaurant } from '../redux/restaurantSlice.bak';
-import type { AppDispatch } from '../redux/store';
-import { setCredentials } from '../redux/authSlice'
+import { setRestaurant } from '../../redux/restaurantSlice.bak';
+import type { AppDispatch } from '../../redux/store';
+import { setCredentials } from '../../redux/authSlice'
 import { useNavigate } from 'react-router-dom';
 
 

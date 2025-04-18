@@ -1,14 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import RestaurantRegister from './pages/RestaurantRegister';
-import CustomerRegister from './pages/CustomerRegister';
+import RestaurantRegister from './pages/restaurant/RestaurantRegister';
+import CustomerRegister from './pages/customer/CustomerRegister';
 import UserTypeSelection from './pages/UserTypeSelection';
 import Login from './pages/Login';
-import RestaurantDashboard from './pages/RestaurantDashboard';
-import CustomerDashboard from './pages/CustomerDashboard';
+import RestaurantDashboard from './pages/restaurant/RestaurantDashboard';
+import CustomerDashboard from './pages/customer/CustomerDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
-import MenuItems from './pages/MenuItems';
-import RestaurantSettings from './pages/RestaurantSettings';
+import MenuItems from './pages/restaurant/MenuItems';
+import RestaurantSettings from './pages/restaurant/RestaurantSettings';
+import BrowseRestaurants from './pages/customer/BrowseRestaurants';
+
 
 function App() {
   return (
@@ -54,7 +56,14 @@ function App() {
   }
 />
 
-
+<Route
+  path="/dashboard/customer/browse"
+  element={
+    <ProtectedRoute allowedRoles={['customer']}>
+      <BrowseRestaurants />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </Router>
   );
