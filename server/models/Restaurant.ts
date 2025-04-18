@@ -13,6 +13,7 @@ const RestaurantSchema = new mongoose.Schema({
   password: { type: String, required: true },
   location: String,
   image: String,
+  role: { type: String, enum: ['restaurant'], default: 'restaurant' }, // ✅ Add this
   menuItems: [MenuItemSchema],
 });
 

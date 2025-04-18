@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import CustomerDashboard from './pages/CustomerDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import MenuItems from './pages/MenuItems';
 
 function App() {
   return (
@@ -35,6 +36,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/dashboard/restaurant/menu"
+          element={
+            <ProtectedRoute allowedRoles={['restaurant']}>
+              <MenuItems />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </Router>
   );

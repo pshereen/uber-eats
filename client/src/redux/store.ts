@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import restaurantReducer from './restaurantSlice';
+import restaurantReducer from './restaurantSlice.bak';
 import customerReducer from './customerSlice';
 import authReducer from './authSlice';
 

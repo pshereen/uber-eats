@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { logout } from '../redux/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 type Props = {
   children: React.ReactNode;
@@ -19,6 +19,11 @@ export default function DashboardLayout({ children }: Props) {
     navigate('/');
   };
 
+  const linkStyle =
+    'block hover:text-[#db7e21] transition';
+  const activeStyle =
+    'text-[#db7e21] font-semibold';
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -29,17 +34,90 @@ export default function DashboardLayout({ children }: Props) {
         <ul className="space-y-4 text-gray-700 font-medium">
           {role === 'restaurant' ? (
             <>
-              <li className="hover:text-[#db7e21] cursor-pointer">Dashboard</li>
-              <li className="hover:text-[#db7e21] cursor-pointer">Menu Items</li>
-              <li className="hover:text-[#db7e21] cursor-pointer">Orders</li>
-              <li className="hover:text-[#db7e21] cursor-pointer">Settings</li>
+              <li>
+                <NavLink
+                  to="/dashboard/restaurant"
+                  end
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/restaurant/menu"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  Menu Items
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/restaurant/orders"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  Orders
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/restaurant/settings"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  Settings
+                </NavLink>
+              </li>
             </>
           ) : (
             <>
-              <li className="hover:text-[#db7e21] cursor-pointer">Dashboard</li>
-              <li className="hover:text-[#db7e21] cursor-pointer">Browse Restaurants</li>
-              <li className="hover:text-[#db7e21] cursor-pointer">My Orders</li>
-              <li className="hover:text-[#db7e21] cursor-pointer">Profile</li>
+              <li>
+                <NavLink
+                  to="/dashboard/customer"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/customer/browse"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  Browse Restaurants
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/customer/orders"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  My Orders
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/customer/profile"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : ''}`
+                  }
+                >
+                  Profile
+                </NavLink>
+              </li>
             </>
           )}
         </ul>
@@ -63,7 +141,6 @@ export default function DashboardLayout({ children }: Props) {
           </div>
         </nav>
 
-        {/* Page Content */}
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>

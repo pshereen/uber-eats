@@ -25,22 +25,29 @@ export default function CustomerRegister() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/customers/register', formData);
+      const requestData = {
+        ...formData,
+        role: 'customer', 
+      };
+  
+      const response = await axios.post('http://localhost:5000/api/customers/register', requestData);
+  
       dispatch(setCustomer(response.data.customer));
       dispatch(
-              setCredentials({
-                user: response.data.restaurant,
-                token: response.data.token,
-                role: 'customer',
-              })
-            );
-            
-            navigate('/dashboard/customer');
+        setCredentials({
+          user: response.data.customer,
+          token: response.data.token,
+          role: 'customer',
+        })
+      );
+  
+      navigate('/dashboard/customer');
     } catch (err) {
       alert('Error registering customer.');
       console.error(err);
     }
   };
+  
 
   return (
     <div className="max-w-xl mx-auto p-8 mt-12 bg-white rounded-lg shadow">

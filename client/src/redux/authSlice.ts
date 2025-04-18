@@ -31,14 +31,22 @@ const authSlice = createSlice({
       action: PayloadAction<{ user: AuthUser; token: string; role: 'restaurant' | 'customer' }>
     ) => {
       const { user, token, role } = action.payload;
-      state.user = user;
+    
+      const normalizedUser = {
+        ...user,
+        _id: '_id' in user ? user._id : (user as { id: string }).id,
+        image: (user as RestaurantUser).image ?? undefined,
+      };
+    
+      state.user = normalizedUser;
       state.token = token;
       state.role = role;
-
+    
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(normalizedUser));
       localStorage.setItem('role', role);
     },
+    
     logout: (state) => {
       state.user = null;
       state.token = null;
