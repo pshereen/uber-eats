@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import MenuItems from './pages/restaurant/MenuItems';
 import RestaurantSettings from './pages/restaurant/RestaurantSettings';
 import BrowseRestaurants from './pages/customer/BrowseRestaurants';
+import ShoppingCart from './pages/customer/ShoppingCart';
 
 
 function App() {
@@ -48,22 +49,31 @@ function App() {
           }
         />
         <Route
-  path="/dashboard/restaurant/settings"
-  element={
-    <ProtectedRoute allowedRoles={['restaurant']}>
-      <RestaurantSettings />
-    </ProtectedRoute>
-  }
-/>
+          path="/dashboard/restaurant/settings"
+          element={
+            <ProtectedRoute allowedRoles={['restaurant']}>
+              <RestaurantSettings />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/dashboard/customer/browse"
-  element={
-    <ProtectedRoute allowedRoles={['customer']}>
-      <BrowseRestaurants />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/dashboard/customer/browse"
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              <BrowseRestaurants />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/customer/cart"
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              <ShoppingCart />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );

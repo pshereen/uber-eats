@@ -66,12 +66,17 @@ export default function MenuModal({
                 </div>
               </div>
               <div className="mt-3 text-right">
-                <button
-                  onClick={() => onOrder(item, quantities[item._id] ?? 1)}
-                  className="bg-[#db7e21] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded"
-                >
-                  Add to Cart
-                </button>
+              <button
+  onClick={() => {
+    const qty = quantities[item._id] ?? 1;
+    onOrder(item, qty);
+    alert(`🛒 ${item.title} added to cart (x${qty})`);
+  }}
+  className="bg-[#db7e21] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded"
+>
+  Add to Cart
+</button>
+
               </div>
             </div>
           ))}

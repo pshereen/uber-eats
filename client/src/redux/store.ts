@@ -3,6 +3,7 @@ import { persistReducer, persistStore, createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import restaurantReducer from './restaurantSlice.bak';
 import customerReducer from './customerSlice';
+import cartReducer from './cartSlice';
 import authReducer, { normalizeUser } from './authSlice';
 import type { AuthState } from './authSlice';
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   restaurant: restaurantReducer,
   customer: customerReducer,
   auth: authReducer,
+  cart: cartReducer,
 });
 
 // 🔁 Transform to normalize `user` on rehydration
@@ -28,14 +30,14 @@ const authTransform = createTransform<AuthState, AuthState>(
     }
     return outboundState;
   },
-  { whitelist: ['auth'] }
+  { whitelist: ['auth', 'cart'] }
 );
 
 // Persist config
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'cart'],
   transforms: [authTransform],
 };
 

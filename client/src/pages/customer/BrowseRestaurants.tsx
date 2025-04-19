@@ -4,6 +4,9 @@ import { RestaurantUser } from '../../types/UserTypes';
 import { MenuItem } from '../../types/MenuItem';
 import DashboardLayout from '../../components/DashboardLayout';
 import MenuModal from '../../components/customer/MenuModal';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+
 
 export default function BrowseRestaurants() {
   const [restaurants, setRestaurants] = useState<RestaurantUser[]>([]);
@@ -14,6 +17,8 @@ export default function BrowseRestaurants() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -37,6 +42,20 @@ export default function BrowseRestaurants() {
     setFiltered(result);
   }, [search, restaurants]);
 
+  const handleAddToCart = (item: MenuItem, quantity: number) => {
+    if (!selectedRestaurant) return;
+  
+    dispatch(addToCart({
+      ...item,
+      quantity,
+      restaurant: {
+        _id: selectedRestaurant._id,
+        name: selectedRestaurant.name,
+      }
+    }));
+  };
+  
+
   const handleRestaurantClick = async (restaurant: RestaurantUser) => {
     try {
       const res = await axios.get(`${API_URL}/api/menu?restaurant=${restaurant._id}`);
@@ -48,10 +67,10 @@ export default function BrowseRestaurants() {
     }
   };
 
-  const handleOrder = (item: MenuItem) => {
-    alert(`🛒 Order placed for ${item.title} at $${item.price.toFixed(2)}`);
-    // Future: Add API call to actually place the order
-  };
+  // const handleOrder = (item: MenuItem) => {
+  //   alert(`🛒 Order placed for ${item.title} at $${item.price.toFixed(2)}`);
+  //   // Future: Add API call to actually place the order
+  // };
 
   return (
     <DashboardLayout>
@@ -94,12 +113,14 @@ export default function BrowseRestaurants() {
       </div>
 
       <MenuModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        restaurantName={selectedRestaurant?.name || ''}
-        menu={menuItems}
-        onOrder={handleOrder}
-      />
+  isOpen={modalOpen}
+  onClose={() => setModalOpen(false)}
+  restaurantName={selectedRestaurant?.name || ''}
+  menu={menuItems} 
+  onOrder={handleAddToCart}
+/>
+
+
     </DashboardLayout>
   );
 }
