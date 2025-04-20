@@ -1,7 +1,4 @@
-import React from 'react';
 import { MenuItem } from '../../types/MenuItem';
-
-
 
 interface Props {
   item: MenuItem;

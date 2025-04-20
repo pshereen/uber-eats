@@ -29,6 +29,9 @@ export default function Login() {
   const [isRedirecting, setIsRedirecting] = useState(false); 
   const [generalError, setGeneralError] = useState('');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,9 +44,9 @@ export default function Login() {
       setIsRedirecting(true);
       setTimeout(() => {
         if (role === 'restaurant') {
-          navigate('/dashboard/restaurant');
+          navigate('/restaurant/menu');
         } else {
-          navigate('/dashboard/customer');
+          navigate('/customer/browse');
         }
       }, 1000);
     }
@@ -85,8 +88,7 @@ export default function Login() {
     if (!validate()) return;
   
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/login',
+      const response = await axios.post(`${API_URL}/api/auth/login`,
         formData
       );
     
@@ -101,9 +103,9 @@ export default function Login() {
       localStorage.setItem('token', response.data.token);
 
       if (formData.role === 'restaurant') {
-        navigate('/dashboard/restaurant');
+        navigate('/restaurant/menu');
       } else {
-        navigate('/dashboard/customer');
+        navigate('/customer/browse');
       }
     } catch (err: unknown) {
         if (axios.isAxiosError(err)) {

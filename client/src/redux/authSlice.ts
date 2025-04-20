@@ -9,8 +9,6 @@ export interface AuthState {
   role: 'restaurant' | 'customer' | null;
 }
 
-
-// ✅ Reusable and exported normalization function
 export function normalizeUser(
   user: Partial<RestaurantUser & { id?: string }> | Partial<CustomerUser & { id?: string }>,
   role: 'restaurant' | 'customer'

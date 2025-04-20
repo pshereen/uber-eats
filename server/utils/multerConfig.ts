@@ -21,5 +21,4 @@ const getStorage = (folder: string) => {
   });
 };
 
-// ✅ Export function that returns a multer instance with the given folder
 export const getUploader = (folder: string) => multer({ storage: getStorage(folder) });

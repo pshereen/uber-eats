@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import DashboardLayout from '../../components/DashboardLayout';
+import DashboardLayout from '../../components/DashboardLayout.bak';
 import MenuItemCard from '../../components/restaurant/MenuItemCard';
 import EditMenuItemModal from '../../components/restaurant/EditMenuItemModal';
 import AddMenuItemModal from '../../components/restaurant/AddMenuItemModal';
@@ -15,17 +15,13 @@ export default function MenuItems() {
   const [showAddForm, setShowAddForm] = useState(false);
 
   const { user } = useSelector((state: RootState) => state.auth);
-  console.log('User from Redux:', user);
   const restaurantId = user?._id;
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        console.log('Fetching menu items for restaurant:', restaurantId);
         if (!restaurantId) return;
-        console.log('API URL:', API_URL);
         const response = await axios.get(`${API_URL}/api/menu?restaurant=${restaurantId}`);
-        console.log('Fetched menu items:', response.data);
         const itemsWithFullImageURLs = response.data.map((item: MenuItem) => ({
           ...item,
           image: item.image ? `${API_URL}${item.image}` : undefined,
@@ -45,18 +41,33 @@ export default function MenuItems() {
   };
 
   const handleSave = (updatedItem: MenuItem) => {
+    const updatedWithFullImage = {
+      ...updatedItem,
+      image: updatedItem.image?.startsWith('http')
+        ? updatedItem.image
+        : updatedItem.image
+        ? `${API_URL}${updatedItem.image}`
+        : undefined,
+    };
+  
     setMenuItems((prev) =>
-      prev.map((item) => (item._id === updatedItem._id ? updatedItem : item))
+      prev.map((item) => (item._id === updatedWithFullImage._id ? updatedWithFullImage : item))
     );
     setEditedItem(null);
   };
+  
 
   const handleCancel = () => {
     setEditedItem(null);
   };
 
   const handleAddItem = (item: MenuItem) => {
-    setMenuItems((prev) => [...prev, item]);
+    const itemWithFullImageURL = {
+      ...item,
+      image: item.image ? `${API_URL}${item.image}` : undefined,
+    };
+
+    setMenuItems((prev) => [...prev, itemWithFullImageURL]);
   };
 
   return (

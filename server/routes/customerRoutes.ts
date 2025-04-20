@@ -52,7 +52,7 @@ router.get(
       }
       res.json(customer);
     } catch (error) {
-      next(error); // Pass errors to global error handler if any
+      next(error); 
     }
   }
 );

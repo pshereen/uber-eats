@@ -1,5 +1,4 @@
-// src/components/MenuModal.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MenuItem } from '../../types/MenuItem';
 
 interface MenuModalProps {
@@ -24,7 +23,7 @@ export default function MenuModal({
   const handleQuantityChange = (id: string, value: number) => {
     setQuantities((prev) => ({
       ...prev,
-      [id]: Math.max(1, value), // Ensure quantity is at least 1
+      [id]: Math.max(1, value), 
     }));
   };
 
@@ -70,7 +69,6 @@ export default function MenuModal({
   onClick={() => {
     const qty = quantities[item._id] ?? 1;
     onOrder(item, qty);
-    alert(`🛒 ${item.title} added to cart (x${qty})`);
   }}
   className="bg-[#db7e21] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded"
 >

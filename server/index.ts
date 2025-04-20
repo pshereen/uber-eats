@@ -5,6 +5,7 @@ import cors from 'cors';
 import restaurantRoutes from './routes/restaurantRoutes';
 import customerRoutes from './routes/customerRoutes';
 import menuRoutes from './routes/menuRoutes';
+import orderRoutes from './routes/ordersRoutes';
 import path from 'path';
 import authRoutes from './routes/authRoutes';
 
@@ -26,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI!)
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/menu', menuRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

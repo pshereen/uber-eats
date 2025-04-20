@@ -16,6 +16,8 @@ export default function RestaurantRegister() {
     location: '',
     image: null as File | null,
   });
+
+  const API_URL = import.meta.env.VITE_API_URL;
   
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ export default function RestaurantRegister() {
         data.append('image', formData.image); 
       }
   
-      const response = await axios.post('http://localhost:5000/api/restaurants/register', data, {
+      const response = await axios.post(`${API_URL}/api/restaurants/register`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
   
@@ -55,7 +57,7 @@ export default function RestaurantRegister() {
         })
       );
       
-      navigate('/dashboard/restaurant');
+      navigate('/restaurant/menu');
     } catch (err) {
       alert('Error registering restaurant.');
       console.error(err);

@@ -7,7 +7,6 @@ import cartReducer from './cartSlice';
 import authReducer, { normalizeUser } from './authSlice';
 import type { AuthState } from './authSlice';
 
-// Combine reducers
 const rootReducer = combineReducers({
   restaurant: restaurantReducer,
   customer: customerReducer,
@@ -15,12 +14,9 @@ const rootReducer = combineReducers({
   cart: cartReducer,
 });
 
-// 🔁 Transform to normalize `user` on rehydration
 const authTransform = createTransform<AuthState, AuthState>(
-  // transform state before persisting
   (inboundState) => inboundState,
 
-  // transform state after rehydration
   (outboundState) => {
     if (outboundState?.user && outboundState?.role) {
       return {
@@ -33,7 +29,6 @@ const authTransform = createTransform<AuthState, AuthState>(
   { whitelist: ['auth', 'cart'] }
 );
 
-// Persist config
 const persistConfig = {
   key: 'root',
   storage,
@@ -41,21 +36,17 @@ const persistConfig = {
   transforms: [authTransform],
 };
 
-// Typed persisted reducer
 const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistConfig, rootReducer);
 
-// Store setup
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // suppress warnings about non-serializable values like transform
+      serializableCheck: false, 
     }),
 });
 
-// Persistor
 export const persistor = persistStore(store);
 
-// Types
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

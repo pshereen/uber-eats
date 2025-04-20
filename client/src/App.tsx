@@ -4,13 +4,15 @@ import RestaurantRegister from './pages/restaurant/RestaurantRegister';
 import CustomerRegister from './pages/customer/CustomerRegister';
 import UserTypeSelection from './pages/UserTypeSelection';
 import Login from './pages/Login';
-import RestaurantDashboard from './pages/restaurant/RestaurantDashboard';
 import CustomerDashboard from './pages/customer/CustomerDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import MenuItems from './pages/restaurant/MenuItems';
+import RestaurantOrdersPage from './pages/restaurant/RestaurantOrdersPage';
 import RestaurantSettings from './pages/restaurant/RestaurantSettings';
 import BrowseRestaurants from './pages/customer/BrowseRestaurants';
 import ShoppingCart from './pages/customer/ShoppingCart';
+import OrdersPage from './pages/customer/Orders';
+
 
 
 function App() {
@@ -23,17 +25,8 @@ function App() {
         <Route path="/select-role" element={<UserTypeSelection />} />
         <Route path="/login" element={<Login />} />
 
-        {/* 🔐 Protected Routes */}
         <Route
-          path="/dashboard/restaurant"
-          element={
-            <ProtectedRoute allowedRoles={['restaurant']}>
-              <RestaurantDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/customer"
+          path="/customer/settings"
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               <CustomerDashboard />
@@ -41,7 +34,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/restaurant/menu"
+          path="/restaurant/menu"
           element={
             <ProtectedRoute allowedRoles={['restaurant']}>
               <MenuItems />
@@ -49,16 +42,23 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/restaurant/settings"
+          path="/restaurant/settings"
           element={
             <ProtectedRoute allowedRoles={['restaurant']}>
               <RestaurantSettings />
             </ProtectedRoute>
           }
         />
-
         <Route
-          path="/dashboard/customer/browse"
+          path="/restaurant/orders"
+          element={
+            <ProtectedRoute allowedRoles={['restaurant']}>
+              <RestaurantOrdersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/customer/browse"
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               <BrowseRestaurants />
@@ -67,10 +67,18 @@ function App() {
         />
 
         <Route
-          path="/dashboard/customer/cart"
+          path="/customer/cart"
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               <ShoppingCart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/customer/orders"
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              <OrdersPage />
             </ProtectedRoute>
           }
         />

@@ -15,6 +15,8 @@ export default function CustomerRegister() {
     location: '',
   });
 
+  const API_URL = import.meta.env.VITE_API_URL;
+  
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ export default function CustomerRegister() {
         role: 'customer', 
       };
   
-      const response = await axios.post('http://localhost:5000/api/customers/register', requestData);
+      const response = await axios.post(`${API_URL}/api/customers/register`, requestData);
   
       dispatch(setCustomer(response.data.customer));
       dispatch(
@@ -41,7 +43,7 @@ export default function CustomerRegister() {
         })
       );
   
-      navigate('/dashboard/customer');
+      navigate('/customer/browse');
     } catch (err) {
       alert('Error registering customer.');
       console.error(err);

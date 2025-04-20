@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { MenuItem, NewMenuItem } from '../../types/MenuItem';
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 type Props = {
   onAddSuccess: (item: MenuItem) => void;
@@ -41,13 +41,13 @@ export default function AddMenuItemForm({ onAddSuccess, restaurantId }: Props) {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/api/menu/add', formData, {
+      const res = await axios.post(`${API_URL}/api/menu/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      onAddSuccess(res.data); // Send the new item back to the parent
+      onAddSuccess(res.data); 
       setNewItem({ title: '', description: '', price: 0 });
       setPreview('');
     } catch (error) {

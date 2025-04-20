@@ -1,4 +1,3 @@
-import React from 'react';
 import AddMenuItemForm from './AddMenuItemForm';
 import { MenuItem } from '../../types/MenuItem';
 

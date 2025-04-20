@@ -68,7 +68,6 @@ router.get(
   }
 );
 
-//  Get all restaurants (for customer browse page)
 router.get('/', async (req: Request, res: Response) => {
   try {
     const restaurants = await Restaurant.find().select('-password -menuItems');
