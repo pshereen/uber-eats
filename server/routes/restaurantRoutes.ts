@@ -5,7 +5,8 @@ import bcrypt from 'bcrypt';
 import { authenticateToken } from '../middleware/authMiddleware';
 import jwt from 'jsonwebtoken';
 import { getUploader } from '../utils/multerConfig'; 
-const upload = getUploader(''); 
+
+const upload = getUploader('restaurants');
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.post(
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { name, email, password, location } = req.body;
-      const imagePath = req.file ? `/uploads/${req.file.filename}` : '';
+      const imagePath = req.file ? `/uploads/restaurants/${req.file.filename}` : '';
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const existing = await Restaurant.findOne({ email });
@@ -76,6 +77,5 @@ router.get('/', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to fetch restaurants', details: error });
   }
 });
-
 
 export default router;
