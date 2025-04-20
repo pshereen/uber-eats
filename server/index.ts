@@ -16,15 +16,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const whitelist = ['https://pshereen.github.io'];
 const corsOptions: CorsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || whitelist.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: 'https://pshereen.github.io',
   credentials: true,
 };
 
