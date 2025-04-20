@@ -9,21 +9,26 @@ import customerRoutes from './routes/customerRoutes';
 import menuRoutes from './routes/menuRoutes';
 import orderRoutes from './routes/ordersRoutes';
 import authRoutes from './routes/authRoutes';
+import type { CorsOptions } from 'cors';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-const corsOptions = {
-  origin: 'https://pshereen.github.io',
+const whitelist = ['https://pshereen.github.io'];
+const corsOptions: CorsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve uploaded images
