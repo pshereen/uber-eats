@@ -23,7 +23,10 @@ const corsOptions: CorsOptions = {
 
 app.use(cors(corsOptions));
 
+app.options('/api/*', cors(corsOptions));
+
 app.use(express.json());
+
 
 // Serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
