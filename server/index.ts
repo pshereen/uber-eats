@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 
 const whitelist = ['https://pshereen.github.io'];
 const corsOptions: CorsOptions = {
-  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+  origin: (origin, callback) => {
     if (!origin || whitelist.includes(origin)) {
       callback(null, true);
     } else {
@@ -29,6 +29,8 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
+
 app.use(express.json());
 
 // Serve uploaded images
