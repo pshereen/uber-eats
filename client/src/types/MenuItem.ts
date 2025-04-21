@@ -4,7 +4,8 @@ export interface MenuItem {
     description: string;
     price: number;
     image?: string;
-    restaurant: string;
+    restaurant: string | { _id: string; name: string }; 
+
   }
   
   export type NewMenuItem = Omit<MenuItem, '_id' | 'restaurant'>;

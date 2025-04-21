@@ -78,4 +78,38 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
+router.put(
+  '/:id',
+  authenticateToken,
+  upload.single('image'),
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const restaurantId = req.params.id;
+      const { name, location } = req.body;
+      const imagePath = req.file ? `/uploads/${req.file.filename}` : undefined;
+
+      const updateFields: any = {};
+      if (name) updateFields.name = name;
+      if (location) updateFields.location = location;
+      if (imagePath) updateFields.image = imagePath;
+
+      const updatedRestaurant = await Restaurant.findByIdAndUpdate(
+        restaurantId,
+        { $set: updateFields },
+        { new: true }
+      ).select('-password'); 
+
+      if (!updatedRestaurant) {
+        res.status(404).json({ error: 'Restaurant not found' });
+        return;
+      }
+
+      res.status(200).json({ updatedRestaurant });
+    } catch (error) {
+      console.error('Update error:', error);
+      res.status(500).json({ error: 'Failed to update restaurant profile' });
+    }
+  }
+);
+
 export default router;

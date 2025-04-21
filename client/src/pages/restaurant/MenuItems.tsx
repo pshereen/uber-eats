@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import DashboardLayout from '../../components/DashboardLayout.bak';
+import DashboardLayout from '../../components/DashboardLayout';
 import MenuItemCard from '../../components/restaurant/MenuItemCard';
 import EditMenuItemModal from '../../components/restaurant/EditMenuItemModal';
 import AddMenuItemModal from '../../components/restaurant/AddMenuItemModal';

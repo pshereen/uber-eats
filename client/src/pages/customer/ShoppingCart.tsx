@@ -1,19 +1,26 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { removeFromCart, updateQuantity } from '../../redux/cartSlice';
-import DashboardLayout from '../../components/DashboardLayout.bak';
+import { removeFromCart, updateQuantity, clearCart } from '../../redux/cartSlice';
+import { clearGuestInfo } from '../../redux/guestSlice';
+import DashboardLayout from '../../components/DashboardLayout';
+import GuestCheckoutForm from '../GuestCheckoutForm';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { clearCart } from '../../redux/cartSlice';
+import { OrderItemPayload, OrderPayload } from '../../types/Order';
 
 export default function ShoppingCart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const items = useSelector((state: RootState) => state.cart.items);
+  const user = useSelector((state: RootState) => state.auth.user);
+  const guestInfo = useSelector((state: RootState) => state.guest.info);
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  const [showGuestForm, setShowGuestForm] = useState(false); 
 
   const grouped = items.reduce((acc: Record<string, typeof items>, item) => {
     const restaurantName = item.restaurant?.name || 'Unknown Restaurant';
@@ -22,9 +29,7 @@ export default function ShoppingCart() {
     return acc;
   }, {});
 
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
-
-  const user = useSelector((state: RootState) => state.auth.user);
+  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   const toggleSection = (restaurantName: string) => {
     setOpenSections((prev) => ({
@@ -33,17 +38,11 @@ export default function ShoppingCart() {
     }));
   };
 
-
-  const handleCheckout = async () => {
+  const placeOrder = async () => {
     try {
-      if (!user?._id) {
-        alert("User not logged in");
-        return;
-      }
-  
-      await axios.post(`${API_URL}/api/orders`, {
-        userId: user._id,
-        items: items.map((i) => ({
+      const orderData: OrderPayload = {
+        userId: user?._id || null,
+        items: items.map((i): OrderItemPayload => ({
           menuItemId: i._id,
           title: i.title,
           price: i.price,
@@ -52,17 +51,31 @@ export default function ShoppingCart() {
           image: i.image,
         })),
         total,
-      });
-  
+      };
+
+      if (!user && guestInfo) {
+        orderData.guestInfo = guestInfo;
+      }
+
+      await axios.post(`${API_URL}/api/orders`, orderData);
+
       dispatch(clearCart());
-      navigate('/customer/orders');
+      dispatch(clearGuestInfo());
+
+      navigate(user ? '/customer/orders' : '/');
     } catch (err) {
       console.error('Checkout error:', err);
       alert('Failed to place order. Please try again.');
     }
   };
-  
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  const handleCheckout = () => {
+    if (!user) {
+      setShowGuestForm(true); 
+    } else {
+      placeOrder();
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -124,28 +137,44 @@ export default function ShoppingCart() {
           </div>
         )}
 
-        <div className="flex justify-between items-center mt-8">
-          <button
-            onClick={() => navigate('/customer/browse')}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-4 py-2 rounded"
-          >
-            ← Continue Shopping
-          </button>
+        {/* Guest form */}
+        {!user && showGuestForm && (
+          <div className="mt-8">
+            <GuestCheckoutForm
+              onComplete={() => {
+                setShowGuestForm(false);
+                placeOrder();
+              }}
+            />
+          </div>
+        )}
 
-          {items.length > 0 && (
-            <div className="text-right">
-              <p className="text-lg font-bold mb-2">
-                Total: <span className="text-green-600">${total.toFixed(2)}</span>
-              </p>
-              <button
-                onClick={handleCheckout}
-                className="bg-[#db7e21] hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded"
-              >
-                Checkout →
-              </button>
-            </div>
-          )}
-        </div>
+        {/* Checkout bar */}
+        <div className="flex justify-between items-center mt-8 flex-wrap gap-4">
+  <button
+    onClick={() => navigate('/customer/browse')}
+    className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-4 py-2 rounded"
+  >
+    ← Continue Shopping
+  </button>
+
+  {items.length > 0 && (
+    <div className="text-right">
+      <p className="text-lg font-bold mb-2">
+        Total: <span className="text-green-600">${total.toFixed(2)}</span>
+      </p>
+      {!showGuestForm && (
+        <button
+          onClick={handleCheckout}
+          className="bg-[#db7e21] hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded"
+        >
+          Checkout →
+        </button>
+      )}
+    </div>
+  )}
+</div>
+
       </div>
     </DashboardLayout>
   );

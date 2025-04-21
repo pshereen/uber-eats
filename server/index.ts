@@ -22,7 +22,14 @@ app.use(express.json());
 
 
 // Serve uploaded images
+
+//for Render
+
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
+//for Localhost
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Routes
 app.use('/api/auth', authRoutes);

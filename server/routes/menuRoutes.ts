@@ -67,5 +67,20 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// GET /api/menu/search?query=pizza
+router.get('/search', async (req, res) => {
+  const { query } = req.query;
+  try {
+    const results = await MenuItem.find({
+      title: { $regex: query, $options: 'i' },
+    }).populate('restaurant', '_id name'); 
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ error: 'Search failed' });
+  }
+});
+
+
+
 
 export default router;

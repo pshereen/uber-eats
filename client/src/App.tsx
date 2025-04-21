@@ -24,7 +24,7 @@ function App() {
         <Route path="/customer/register" element={<CustomerRegister />} />
         <Route path="/select-role" element={<UserTypeSelection />} />
         <Route path="/login" element={<Login />} />
-
+        <Route path="/cart" element={<ShoppingCart />} />
         <Route
           path="/customer/settings"
           element={
@@ -62,15 +62,6 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               <BrowseRestaurants />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/customer/cart"
-          element={
-            <ProtectedRoute allowedRoles={['customer']}>
-              <ShoppingCart />
             </ProtectedRoute>
           }
         />

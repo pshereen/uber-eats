@@ -7,7 +7,23 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   try {
     const { userId, items, total } = req.body;
-    const order = new Order({ userId, items, total });
+
+    if (!items || !Array.isArray(items) || items.length === 0 || !total) {
+       res.status(400).json({ error: 'Invalid order data' });
+       return;
+    }
+
+    const orderData: any = {
+      items,
+      total,
+      createdAt: new Date(),
+    };
+
+    if (userId) {
+      orderData.userId = userId; 
+    }
+
+    const order = new Order(orderData);
     await order.save();
     res.status(201).json(order);
   } catch (err) {
@@ -15,6 +31,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to create order' });
   }
 });
+
 
 // Get all orders for a customer
 router.get('/', async (req, res) => {

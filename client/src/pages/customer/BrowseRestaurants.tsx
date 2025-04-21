@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RestaurantUser } from '../../types/UserTypes';
 import { MenuItem } from '../../types/MenuItem';
-import DashboardLayout from '../../components/DashboardLayout.bak';
+import DashboardLayout from '../../components/DashboardLayout';
 import MenuModal from '../../components/customer/MenuModal';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/cartSlice';
@@ -153,7 +153,7 @@ export default function BrowseRestaurants() {
             <button
               onClick={() => {
                 setShowCartModal(false);
-                navigate('/customer/cart') 
+                navigate('/cart') 
               }}
               className="flex-1 bg-black text-white py-2 rounded-full font-semibold hover:bg-gray-800"
             >

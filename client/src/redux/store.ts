@@ -1,9 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistReducer, persistStore, createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import restaurantReducer from './restaurantSlice.bak';
+import restaurantReducer from './restaurantSlice';
 import customerReducer from './customerSlice';
 import cartReducer from './cartSlice';
+import guestReducer from './guestSlice';
 import authReducer, { normalizeUser } from './authSlice';
 import type { AuthState } from './authSlice';
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   customer: customerReducer,
   auth: authReducer,
   cart: cartReducer,
+  guest: guestReducer,
 });
 
 const authTransform = createTransform<AuthState, AuthState>(

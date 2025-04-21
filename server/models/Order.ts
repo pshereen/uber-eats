@@ -12,7 +12,7 @@ interface OrderItem {
 }
 
 export interface OrderDocument extends Document {
-  userId: string;
+  userId?: string; 
   items: OrderItem[];
   total: number;
   createdAt: Date;
@@ -20,7 +20,10 @@ export interface OrderDocument extends Document {
 
 const OrderSchema = new Schema<OrderDocument>(
   {
-    userId: { type: String, required: true },
+    userId: {
+      type: String,
+      required: false, 
+    },
     items: [
       {
         menuItemId: { type: String, required: true },
